@@ -13,7 +13,16 @@ setPiece :: QuartoBoard -> (Int, Int) -> Piece -> Either String QuartoBoard
 setPiece _ _ NoPiece 		= Left "Piece cannot be a NoPiece"
 setPiece board pos@(x, y) piece = if getPiece board pos /= NoPiece
 				  then Left "Possition already taken!"
-				  else undefined
+				  else Right $ replace' pos piece board
+
+replace :: Int -> Piece -> [Piece] -> [Piece]
+replace pos piece list = take pos list ++ [piece] ++ drop (pos + 1) list
+
+replace' :: (Int, Int) -> Piece -> QuartoBoard -> QuartoBoard
+replace' (x, y) piece board = firsts ++ replaced : lasts
+	where 	firsts 	 = take y board
+		replaced = replace x piece (board !! y)
+		lasts 	 = drop (y + 1) board
 
 getPiece :: QuartoBoard -> (Int, Int) -> Piece
 getPiece board (x, y) = (board !! y) !! x
