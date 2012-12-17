@@ -22,3 +22,14 @@ fourEq (Piece a) (Piece b) (Piece c) (Piece d) = ands > 0 || xors > 0
 		bb   = b `xor` 15
 		cc   = c `xor` 15
 		dd   = d `xor` 15
+
+mapEq :: [Piece] -> Bool
+mapEq list = ands > 0 || xors > 0
+	where   ands    = foldr (.&.) 15 numList
+		xors    = foldr (.&.) 15 $ map (xor 15) numList
+		numList = extractNums list
+
+extractNums :: [Piece] -> [Word8]
+extractNums [] 		     = []
+extractNums (NoPiece:rest)   = extractNums rest
+extractNums (Piece a:rest) = a : extractNums rest
