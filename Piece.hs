@@ -3,7 +3,7 @@ module Piece where
 import Data.Word
 import Data.Bits
 
-data Piece = Piece Word8 | NoPiece deriving Show
+data Piece = Piece Word8 | NoPiece deriving (Show, Eq)
 
 newPiece :: Word8 -> Piece
 newPiece a = 	if a >= 0 && a < 16
@@ -22,10 +22,3 @@ fourEq (Piece a) (Piece b) (Piece c) (Piece d) = ands > 0 || xors > 0
 		bb   = b `xor` 15
 		cc   = c `xor` 15
 		dd   = d `xor` 15
-
-instance Eq Piece where
-	(==) NoPiece _ 		 = False
-	(==) _ NoPiece 		 = False
-	(==) (Piece a) (Piece b) = (a .&. b > 0) || (c .&. d > 0)
-		where 	c = xor a 15
-			d = xor b 15

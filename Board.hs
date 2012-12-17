@@ -6,11 +6,17 @@ import Data.List
 type QuartoBoard = [[Piece]]
 
 newBoard :: QuartoBoard
-newBoard = take 4 $ repeat row
-	 where row = take 4 $ repeat NoPiece
+newBoard = replicate 4 row --Create a 4 x 4 playing grid
+	 where row = replicate 4 NoPiece
 
-setPiece :: QuartoBoard -> (Int, Int) -> Bool
-setPiece board (x, y) = undefined
+setPiece :: QuartoBoard -> (Int, Int) -> Piece -> Either String QuartoBoard
+setPiece _ _ NoPiece 		= Left "Piece cannot be a NoPiece"
+setPiece board pos@(x, y) piece = if getPiece board pos /= NoPiece
+				  then Left "Possition already taken!"
+				  else Right board
+
+getPiece :: QuartoBoard -> (Int, Int) -> Piece
+getPiece board (x, y) = (board !! y) !! x
 
 pprint :: QuartoBoard -> IO ()
 pprint board    = mapM_ putStrLn b
