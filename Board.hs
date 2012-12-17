@@ -1,7 +1,6 @@
 module Board where
 
 import Piece
-import Data.List
 
 type QuartoBoard = [[Piece]]
 
