@@ -24,10 +24,11 @@ fourEq (Piece a) (Piece b) (Piece c) (Piece d) = ands > 0 || xors > 0
 		dd   = d `xor` 15
 
 mapEq :: [Piece] -> Bool
-mapEq list = ands > 0 || xors > 0
+mapEq list = filled && (ands > 0 || xors > 0)
 	where   ands    = foldr (.&.) 15 numList
 		xors    = foldr (.&.) 15 $ map (xor 15) numList
 		numList = extractNums list
+		filled 	= NoPiece `notElem` list
 
 extractNums :: [Piece] -> [Word8]
 extractNums [] 		     = []

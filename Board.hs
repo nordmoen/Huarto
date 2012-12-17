@@ -5,8 +5,8 @@ import Data.List(transpose)
 
 type QuartoBoard = [[Piece]]
 
-newBoard :: QuartoBoard
-newBoard = replicate 4 row --Create a 4 x 4 playing grid
+emptyBoard :: QuartoBoard
+emptyBoard = replicate 4 row --Create a 4 x 4 playing grid
 	 where row = replicate 4 NoPiece
 
 setPiece :: QuartoBoard -> (Int, Int) -> Piece -> Either String QuartoBoard
@@ -24,7 +24,7 @@ win board = horizontal || vertical || cross1 || cross2
 		vertical   = any mapEq $ transpose board
 		cross1     = mapEq $ map fst cross
 		cross2     = mapEq $ map snd cross
-		cross 	   = extractCross board (length $ head board) 0
+		cross 	   = extractCross board 4 0
 
 extractCross :: QuartoBoard -> Int -> Int -> [(Piece, Piece)]
 extractCross board len curr =   if len == curr
@@ -34,7 +34,9 @@ extractCross board len curr =   if len == curr
 					neg = getPiece board (3 - curr, curr)
 
 draw :: QuartoBoard -> Bool
-draw = all (notElem NoPiece)
+draw board = filled && not winner
+	where 	filled = all (notElem NoPiece) board
+		winner = win board
 
 pprint :: QuartoBoard -> IO ()
 pprint board    = mapM_ putStrLn b
