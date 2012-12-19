@@ -45,7 +45,7 @@ extractNums (Piece a:rest)   = a : extractNums rest
 
 showPiece :: Piece -> String
 showPiece NoPiece   = replicate 4 '_'
-showPiece (Piece a) = bracket : (mkLarge color) : hollow : revBrack : []
+showPiece (Piece a) = [bracket, mkLarge color, hollow, revBrack]
 	where 	bracket  = if a .&. 1 > 0 then '[' else '('
 		color 	 = if a .&. 2 > 0 then 'l' else 'd'
 		hollow   = if a .&. 4 > 0 then '*' else ' '

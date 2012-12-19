@@ -27,6 +27,9 @@ replace' (x, y) piece board = firsts ++ replaced : lasts
 getPiece :: QuartoBoard -> (Int, Int) -> Piece
 getPiece board (x, y) = (board !! y) !! x
 
+legalMove :: QuartoBoard -> (Int, Int) -> Bool
+legalMove board pos = NoPiece /= getPiece board pos
+
 win :: QuartoBoard -> Bool
 win board = horizontal || vertical || cross1 || cross2
 	where   horizontal = any mapEq board
