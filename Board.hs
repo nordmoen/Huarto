@@ -48,5 +48,6 @@ draw board = filled && not winner
 		winner = win board
 
 pprint :: QuartoBoard -> IO ()
-pprint board    = mapM_ putStrLn b
-	where b = map show board
+pprint board = mapM_ putStrLn c
+	where 	b = map (map showPiece) board
+		c = map show b
